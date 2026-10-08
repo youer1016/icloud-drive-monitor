@@ -1,0 +1,20 @@
+# macOS and local runtime state
+.DS_Store
+monitor.log
+evict_local
+__pycache__/
+*.py[cod]
+
+# Browser and test artifacts
+.playwright-cli/
+output/
+
+# Local design drafts and captures
+design-demos/
+design-spec.md
+direction-approved.md
+*-preview.png
+
+# Editors
+.vscode/
+.idea/

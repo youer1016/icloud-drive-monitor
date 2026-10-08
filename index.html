@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iCloud Drive Monitor</title>
+  <link rel="stylesheet" href="/ui.css">
+  <link rel="stylesheet" href="/tree.css">
+</head>
+<body>
+  <div class="window">
+    <header class="app-header">
+      <div><div class="eyebrow">本机 iCloud Drive</div><h1>文件状态</h1></div>
+      <div class="updated" id="updated">正在连接…</div>
+    </header>
+    <main>
+      <section class="section" aria-labelledby="status-heading">
+        <h2 id="status-heading">运行状态</h2>
+        <div class="group summary">
+          <div class="metric"><div class="key">bird 进程</div><div class="value state"><span class="dot" id="stateDot"></span><span id="processState">读取中</span></div><div class="detail" id="pid">等待进程信息</div></div>
+          <div class="metric"><div class="key">页面监听</div><div class="value" id="listening">连接中</div><div class="detail">关闭页面后停止监听</div></div>
+          <div class="metric"><div class="key">已见路径</div><div class="value" id="pathCount">0</div><div class="detail">本次服务会话</div></div>
+        </div>
+      </section>
+      <section class="section" aria-labelledby="conclusion-heading">
+        <h2 id="conclusion-heading">当前活动</h2>
+        <div class="group answer"><div class="answer-title" id="answerTitle">正在等待 Finder 可见路径的文件系统事件</div><div class="answer-text" id="answerText">只记录 iCloud Drive 根目录中的实际路径。</div></div>
+        <div class="notice" id="notice" role="status"></div>
+      </section>
+      <section class="section" id="localTreeSection" aria-labelledby="tree-heading">
+        <h2 id="tree-heading">本机已下载的 iCloud Drive 内容</h2>
+        <div class="group answer"><div class="answer-text">正在载入文件树控制项…</div></div>
+      </section>
+      <section class="section" aria-labelledby="activity-heading">
+        <h2 id="activity-heading">文件路径活动</h2>
+        <div class="group table-wrap">
+          <table class="events"><thead><tr><th>时间</th><th>进程</th><th>操作</th><th>类型</th><th>真实路径</th></tr></thead>
+            <tbody id="eventRows"><tr><td colspan="5"><div class="empty">等待 iCloud Drive 路径事件。没有事件时此处保持为空。</div></td></tr></tbody>
+          </table>
+        </div>
+        <p class="footnote">显示文件系统事件，单条记录无法单独证明文件内容已下载。内部 CloudDocs 会话路径已排除。</p>
+        <details class="explain"><summary>操作名称说明</summary>
+          <div class="explain-body"><p>操作名来自 macOS 的 <code>fs_usage</code>。不同进程可能对同一文件连续进行多种操作。</p>
+            <dl class="operation-list">
+              <div><dt><code>lstat64</code></dt><dd>读取路径自身的属性；遇到符号链接时查看链接本身。通常只涉及元数据。</dd></div>
+              <div><dt><code>stat64</code></dt><dd>读取文件属性；通常会跟随符号链接。不能据此判断文件已下载。</dd></div>
+              <div><dt><code>getattrlist</code> / <code>getattrlistbulk</code></dt><dd>读取文件或一批目录项的属性，例如名称、大小和状态。</dd></div>
+              <div><dt><code>open</code> / <code>close</code></dt><dd>打开或关闭文件句柄；仅凭这两项无法判断是否读取了正文。</dd></div>
+              <div><dt><code>RdData</code></dt><dd>读取文件数据，可能来自本地缓存或其他来源，需结合路径与进程判断。</dd></div>
+              <div><dt><code>WrData</code></dt><dd>写入文件数据。下载过程中可能出现，但其他保存操作也会写入。</dd></div>
+              <div><dt><code>rename</code> / <code>create</code></dt><dd>重命名、移动或创建目录项，可能出现在文件落地的过程里。</dd></div>
+              <div><dt><code>fsync</code></dt><dd>请求把此前写入的数据同步到存储设备。</dd></div>
+            </dl>
+          </div>
+        </details>
+      </section>
+      <details class="raw"><summary>最近原始事件</summary><pre id="rawLog">尚无事件。</pre></details>
+    </main>
+  </div>
+  <script src="/app.js"></script>
+  <script src="/tree.js"></script>
+</body>
+</html>

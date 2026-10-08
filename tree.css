@@ -1,0 +1,66 @@
+.tree-controls, .tree-filter-bar, .tree-depth-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 16px; border-bottom: 1px solid var(--line); }
+.tree-controls p { margin: 0; color: var(--secondary); font-size: 12px; }
+.tree-actions { display: flex; gap: 8px; white-space: nowrap; }
+.tree-action { appearance: none; border: 1px solid var(--line); border-radius: 6px; background: var(--control); color: var(--text); font: 13px var(--ui); padding: 6px 11px; cursor: pointer; }
+.tree-action:hover:not(:disabled), .tree-depth-button:hover:not(:disabled) { filter: brightness(.96); }
+.tree-action.primary { border-color: #0066cc; background: #0071e3; color: #fff; }
+.tree-action:disabled, .tree-inline-action:disabled, .tree-depth-button:disabled { opacity: .48; cursor: default; }
+.tree-progress { padding: 10px 16px; color: var(--secondary); font-size: 12px; font-variant-numeric: tabular-nums; border-bottom: 1px solid var(--line); }
+.tree-filter-bar { flex-wrap: wrap; font-size: 13px; }
+.tree-filter-bar label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+.tree-filter-bar input, .tree-file-label input, .tree-select-folder { accent-color: var(--blue); }
+#treeSelectionCount { margin-left: auto; color: var(--secondary); font-variant-numeric: tabular-nums; }
+.tree-depth-bar { justify-content: flex-start; gap: 4px; padding-top: 8px; padding-bottom: 8px; }
+.tree-depth-bar > span { margin-right: 9px; color: var(--secondary); font-size: 12px; }
+.tree-depth-button { appearance: none; border: 1px solid transparent; border-radius: 5px; background: transparent; color: var(--blue); font: 12px var(--ui); padding: 5px 9px; cursor: pointer; }
+.tree-depth-button:hover:not(:disabled) { background: var(--control); }
+.tree-results { min-height: 44px; }
+.tree-folder { position: relative; }
+.tree-select-folder { position: absolute; z-index: 1; top: 14px; left: 16px; margin: 0; cursor: pointer; }
+.tree-folder > summary, .tree-file, .tree-unscanned { display: grid; align-items: center; gap: 10px; min-height: 42px; padding: 7px 16px; border-bottom: 1px solid var(--line); font-size: 13px; }
+.tree-folder > summary { grid-template-columns: minmax(0, 1fr) 100px; padding-left: 41px; padding-right: 170px; list-style: none; cursor: pointer; }
+.tree-folder > summary::-webkit-details-marker { display: none; }
+.tree-folder > summary:hover, .tree-file:hover, .tree-unscanned:hover { background: var(--hover); }
+.tree-folder-label { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.tree-selected-summary { flex: none; color: var(--blue); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tree-selected-summary[hidden] { display: none; }
+.tree-file { grid-template-columns: minmax(0, 1fr) 100px 223px; }
+.tree-unscanned { grid-template-columns: minmax(0, 1fr) 100px; color: var(--secondary); }
+.tree-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tree-folder > summary .tree-name:before { content: '›'; display: inline-block; width: 18px; color: var(--secondary); font-size: 18px; line-height: 12px; }
+.tree-folder[open] > summary .tree-name:before { content: '⌄'; }
+.tree-file-label { display: flex; align-items: center; gap: 8px; min-width: 0; cursor: pointer; }
+.tree-file-label input { flex: none; margin: 0; }
+.tree-unscanned .tree-name { padding-left: 18px; }
+.tree-size { text-align: right; color: var(--secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tree-count { display: none; }
+.tree-children { margin-left: 18px; border-left: 1px solid var(--line); }
+.tree-folder-actions { position: absolute; top: 5px; right: 12px; display: flex; align-items: center; gap: 5px; }
+.tree-file-actions { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
+.tree-inline-action { appearance: none; border: 0; border-radius: 5px; background: transparent; color: var(--blue); font: 12px var(--ui); padding: 6px 8px; cursor: pointer; white-space: nowrap; }
+.tree-inline-action:hover:not(:disabled) { background: var(--control); }
+.tree-reveal { visibility: hidden; opacity: 0; }
+.tree-folder:hover > .tree-folder-actions .tree-reveal, .tree-folder:focus-within > .tree-folder-actions .tree-reveal, .tree-file:hover .tree-reveal, .tree-file:focus-within .tree-reveal { visibility: visible; opacity: 1; }
+.tree-evict-results { padding: 13px 16px; border-top: 1px solid var(--line); font-size: 12px; max-height: 220px; overflow: auto; }
+.tree-evict-results[hidden] { display: none; }
+.tree-evict-results strong { display: block; margin-bottom: 6px; }
+.tree-evict-results div { display: grid; grid-template-columns: 92px minmax(140px, 1fr) minmax(180px, 1.5fr); gap: 10px; align-items: start; padding: 6px 0; overflow-wrap: anywhere; }
+.tree-evict-results div + div { border-top: 1px solid var(--line); }
+.tree-result-path { appearance: none; border: 0; background: transparent; padding: 0; color: var(--blue); font: inherit; text-align: left; cursor: pointer; overflow-wrap: anywhere; }
+.tree-result-path:hover { text-decoration: underline; }
+.tree-success { color: var(--green); }
+.tree-failure { color: var(--red); }
+@media (hover: none) { .tree-reveal { visibility: visible; opacity: 1; } }
+@media (max-width: 760px) {
+  .tree-controls { align-items: flex-start; flex-direction: column; }
+  .tree-filter-bar { align-items: flex-start; flex-direction: column; gap: 7px; }
+  #treeSelectionCount { margin-left: 0; }
+  .tree-folder > summary { grid-template-columns: minmax(0, 1fr) 82px; padding-right: 16px; }
+  .tree-folder-label { align-items: flex-start; flex-direction: column; gap: 0; }
+  .tree-folder-actions { position: static; justify-content: flex-end; padding: 0 9px 5px; border-bottom: 1px solid var(--line); }
+  .tree-reveal { visibility: visible; opacity: 1; }
+  .tree-file { grid-template-columns: minmax(0, 1fr) 82px; gap: 6px; }
+  .tree-file-actions { grid-column: 1 / -1; }
+  .tree-unscanned { grid-template-columns: minmax(0, 1fr) 82px; }
+  .tree-evict-results div { grid-template-columns: 1fr; gap: 2px; }
+}
